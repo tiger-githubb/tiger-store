@@ -3,9 +3,45 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
-  <router-view/>
+
+
+  <router-view />
 </template>
 
+
+<script>
+export default {
+  name: 'app',
+
+  data() {
+    return {
+      products: [],
+
+    }
+  },
+
+  methods: {
+    /**
+     * Fetch products data from Chec and store in the products data object.
+     * https://commercejs.com/docs/sdk/products
+     */
+    fetchProducts() {
+      this.$commerce.products.list().then((products) => {
+        this.products = products.data;
+
+      }).catch((error) => {
+        console.log('There is an error fetching products', error);
+
+      });
+    },
+    created() {
+      this.fetchProducts();
+    },
+  },
+};
+
+</script>
+  
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
